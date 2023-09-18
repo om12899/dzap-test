@@ -7,6 +7,8 @@ function Alert() {
     const keepFirst=()=>{
         console.log("Keep First clicked");
     }
+
+    
   return (
     <div className='mb-3 row justify-content-between container'>
       <div className='d-flex text-danger  '>
@@ -26,8 +28,11 @@ function Alert() {
 </svg>
         </div>
         <div className='text-danger p-1'>
-           <p>Address Address1 encountered duplicate in line : 1,2</p> 
-           <p>Address Address2 encountered duplicate in line : 3,4</p> 
+        <ul>
+                {errorMessages.map((errorMessage, index) => (
+                  <li key={index}>{errorMessage}</li>
+                ))}
+              </ul>
         </div>
       </div>
     </div>
