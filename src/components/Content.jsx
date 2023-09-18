@@ -4,10 +4,19 @@ function Content() {
   const [inputText, setInputText] = useState('');
   const [errorMessages, setErrorMessages] = useState([]);
   const [duplicateAddressLines, setDuplicateAddressLines] = useState([]);
+  const [lineNumbers, setLineNumbers] = useState([]);
+  const handleInputChange = (e) => {
+    const text = e.target.value;
+    setInputText(text);
+    setLineNumbers(text.split('\n').map((_, index) => index + 1));
+  };
+
+
 
   const CombineBalances = () => {
     const lines = inputText.split('\n');
     const mergedValuesMap = {};
+
 
         
   
@@ -122,14 +131,14 @@ function Content() {
           }
       const parts = line.trim().split(/[,:= ]+/); // Split by colons, commas, spaces, or equal signs
       if (parts.length !== 2) {
-        errors.push(`Line ${index + 1} does not have exactly two parts.`);
+        errors.push(`Line ${index + 1} wrong amount`);
       } else {
         const [address, value] = parts;
         if (!isValidEthereumAddress(address)) {
-          errors.push(`Line ${index + 1} contains an invalid Ethereum address.`);
+          errors.push(`Line ${index + 1} wrong amount`);
         }
-        if (!/^\d+$/.test(value)) {
-          errors.push(`Line ${index + 1} contains a non-numeric value.`);
+       else  if (!/^\d+$/.test(value)) {
+          errors.push(`Line ${index + 1} wrong amount`);
         }
       }
     });
@@ -141,19 +150,26 @@ function Content() {
 
   return (
     <div className="container py-2">
-      <form>
-        <div className="mb-3">
-          <label htmlFor="exampleFormControlTextarea1" className="form-label">Addresses with Amounts</label>
-          <textarea
-            className="form-control bg-light text-emphasis-dark"
-            rows="9"
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-          ></textarea>
-        </div>
+      <form className=''>
+      <label htmlFor="exampleFormControlTextarea1" className="form-label text-secondary">Addresses with Amounts</label>
+        <div className='d-flex pe-2 focus-ring focus-ring-light'> 
+        
+      <div className="line-numbers fw-bold bg-light text-secondary p-2 border-end">
+              {lineNumbers.map((lineNumber) => (
+                <div key={lineNumber} className="line-number">{lineNumber}</div>
+              ))}
+            </div>
+            <textarea
+              className="form-control fw-bold focus-ring focus-ring-light bg-light text-emphasis-dark border-0"
+              rows="9"
+              value={inputText}
+              onChange={handleInputChange}
+            ></textarea></div>
+     
+          
 
         <div className='mb-3'>
-          <p>Separated by ',' or ' ' or '='</p>
+          <p className='text-secondary'>Separated by ',' or ' ' or '='</p>
         </div>
 
         {errorMessages.length > 0 && (
