@@ -29,10 +29,10 @@ function Alert() {
         </div>
         <div className='text-danger p-1'>
         <ul>
-                {errorMessages.map((errorMessage, index) => (
-                  <li key={index}>{errorMessage}</li>
-                ))}
-              </ul>
+              {duplicateAddressLines.map((lineNumber) => (
+                <li key={lineNumber}>Line {lineNumber + 1}</li>
+              ))}
+            </ul>
         </div>
       </div>
     </div>
